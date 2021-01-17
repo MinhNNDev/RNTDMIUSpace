@@ -26,7 +26,7 @@ export default class BottomTab extends Component {
     return (
       <View style={styles.menuTb}>
         <View style={styles.iconGroup}>
-          <IconGroup icon="card" title="Thẻ SV" />
+          <IconGroup icon="id-card" title="Thẻ SV" />
           <IconGroup icon="list-alt" title="TKB" />
           <IconGroup icon="server" title="Điểm" />
           <IconGroup icon="newspaper-o" title="Tin tức" />

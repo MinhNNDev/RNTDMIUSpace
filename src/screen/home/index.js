@@ -40,7 +40,7 @@ export default class HomeScreen extends Component {
     }
   };
 
-  render(props) {
+  render() {
     return (
       <SafeAreaView style={styles.container}>
         <BackgroundHeader height={170} width={w} />
@@ -48,7 +48,7 @@ export default class HomeScreen extends Component {
           <View style={styles.viewMember}>
             <TouchableOpacity>
               <Image
-                source={require('../assets/img/minhdev.jpg')}
+                source={require('../../assets/img/minhdev.jpg')}
                 style={styles.imageMember}
               />
             </TouchableOpacity>
