@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import AuthScreen from '../screen/auth/index';
 import HomeScreen from '../screen/home/index';
+import ProfileScreen from '../screen/profile/index';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

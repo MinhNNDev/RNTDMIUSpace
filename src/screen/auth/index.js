@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import BackgroundHeader from '../../component/BackgroundHeader';
+import InputValue from '../../component/InputValue';
 import LinearGradient from 'react-native-linear-gradient';
+import TextGradient from '../../components/TextGradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -19,18 +21,10 @@ const LoginScreen = ({navigation}) => {
       <BackgroundHeader height={height} width={width} />
       <View style={styles.container}>
         <View style={styles.mainLogin}>
-        <Text style={styles.txtLogin}> INFORMARTION SPACE </Text>
+          <TextGradient style={styles.txtLogo}>INFORMARTION SPACE</TextGradient>
           <Text style={styles.txtLogin}> Đăng nhập </Text>
-          <View>
-            <TextInput placeholder="Username" style={styles.txtInput} />
-          </View>
-          <View>
-            <TextInput
-              placeholder="Password"
-              secureTextEntry={true}
-              style={styles.txtInput}
-            />
-          </View>
+          <InputValue title="Username" icon="user" />
+          <InputValue title="Password" icon="lock" isPassword />
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Home')}
@@ -62,7 +56,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 300,
   },
+  txtLogo: {
+    fontSize: 30,
+    fontWeight: '700',
+    textAlign: 'center',
+    padding: 25,
+  },
   txtLogin: {
+    marginVertical: 20,
     color: '#FFF',
     fontSize: 20,
     fontWeight: 'bold',
