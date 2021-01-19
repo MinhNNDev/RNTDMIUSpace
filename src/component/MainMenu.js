@@ -14,7 +14,7 @@ const IconGroup = ({icon, title}) => {
   return (
     <View>
       <TouchableOpacity style={styles.touch}>
-        <FontAwesome name={icon} size={30} color="#174A91" />
+        <FontAwesome name={icon} size={32} color="#174A91" />
         <Text style={styles.txtIcon}>{title}</Text>
       </TouchableOpacity>
     </View>
@@ -29,12 +29,12 @@ export default class BottomTab extends Component {
           <IconGroup icon="id-card" title="Thẻ SV" />
           <IconGroup icon="list-alt" title=" TKB " />
           <IconGroup icon="server" title="Điểm" />
-          <IconGroup icon="newspaper-o" title="Tin tức" />
+          <IconGroup icon="bell-o" title="Tbáo" />
         </View>
         <View style={styles.iconGroup}>
           <IconGroup icon="signal" title=" CTĐT" />
           <IconGroup icon="calendar" title="Lịch thi" />
-          <IconGroup icon="credit-card" title="Học phí" />
+          <IconGroup icon="newspaper-o" title="Tin tức" />
           <IconGroup icon="bars" title=" Khác " />
         </View>
       </View>
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   touch: {
     alignItems: 'center',
+    width: 50,
   },
   iconGroup: {
     flexDirection: 'row',
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   txtIcon: {
-    fontSize: 14,
+    fontSize: 12,
     marginTop: 3,
   },
 });

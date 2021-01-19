@@ -19,25 +19,33 @@ const profile = ({navigation}) => {
             style={styles.imageMember}
           />
         </TouchableOpacity>
-      </View>
-      <View style={styles.dataMember}>
-        <Text style={styles.nameMember}>Nguyen Ngoc Minh</Text>
-        <Text style={[styles.nameMember, styles.mssvMember]}>
-          MSSV : 1824801030015
-        </Text>
-        <Text style={[styles.nameMember, styles.mssvMember]}>
-          Ngày sinh: 27/10/2000
-        </Text>
-        <Text style={[styles.nameMember, styles.mssvMember]}>
-          Khoa: Viện Kĩ thuật Công Nghệ
-        </Text>
-        <Text style={[styles.nameMember, styles.mssvMember]}>
-          Ngành: Kĩ thuật Phần mềm
-        </Text>
-        <Text style={[styles.nameMember, styles.mssvMember]}>Lớp: D18PM01</Text>
+
+        <View style={styles.dataMember}>
+          <Text style={styles.nameMember}>Nguyen Ngoc Minh</Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            MSSV : 1824801030015
+          </Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            Ngày sinh: 27/10/2000
+          </Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            Khoa: Viện Kĩ thuật Công Nghệ
+          </Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            Ngành: Kĩ thuật Phần mềm
+          </Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            Lớp: D18PM01
+          </Text>
+        </View>
       </View>
       <TouchableOpacity
         style={[styles.btn]}
+        onPress={() => navigation.navigate('Auth')}>
+        <Text style={styles.txtBtn}>Đăng xuất</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.btn, {marginTop: 10}]}
         onPress={() => navigation.navigate('Auth')}>
         <Text style={styles.txtBtn}>Đăng xuất</Text>
       </TouchableOpacity>
@@ -48,22 +56,25 @@ const profile = ({navigation}) => {
 export default profile;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', backgroundColor: '#fff'},
+  container: {flex: 1},
   viewMember: {
-    marginTop: 20,
+    width: w,
+    paddingTop: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   nameMember: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#001242',
     fontWeight: 'bold',
   },
   txtBtn: {
     fontSize: 16,
-    color: 'red',
+    color: '#000',
     fontWeight: '600',
   },
   mssvMember: {
-    fontSize: 13,
+    fontSize: 16,
   },
   imageMember: {
     width: 100,
@@ -82,6 +93,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: '#fff',
     bottom: -200,
-    borderWidth: 0.5,
+    //borderWidth: 0.5,
+    borderColor: '#737373',
   },
 });

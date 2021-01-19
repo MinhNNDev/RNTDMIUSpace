@@ -5,13 +5,12 @@ import {
   View,
   SafeAreaView,
   Dimensions,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 import BackgroundHeader from '../../component/BackgroundHeader';
 import InputValue from '../../component/InputValue';
 import LinearGradient from 'react-native-linear-gradient';
-import TextGradient from '../../components/TextGradient';
+import TextGradient from '../../component/TextGradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -23,8 +22,8 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.mainLogin}>
           <TextGradient style={styles.txtLogo}>INFORMARTION SPACE</TextGradient>
           <Text style={styles.txtLogin}> Đăng nhập </Text>
-          <InputValue title="Username" icon="user" />
-          <InputValue title="Password" icon="lock" isPassword />
+          <InputValue title="MSSV" icon="user" />
+          <InputValue title="Mật khẩu" icon="lock" isPassword />
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Home')}
@@ -52,9 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainLogin: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 300,
+    marginHorizontal: 20,
   },
   txtLogo: {
     fontSize: 30,

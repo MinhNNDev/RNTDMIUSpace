@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -14,12 +14,28 @@ import {
 import BackgroundHeader from '../../component/BackgroundHeader';
 import MainMenu from '../../component/MainMenu';
 /* --------- */
-
 import {URL} from '../../api/config';
 
 const w = Dimensions.get('window').width;
 
 const HomeScreen = ({navigation}) => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [timetableToday, setTimetableToday] = useState([]);
+
+  useEffect(() => {
+    fetch('http://45.119.212.43:3000/api/student/1824801030015')
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        setTimetableToday(
+          json.timetable.filter((s) => s.dayOfWeek === new Date().getDay()),
+        );
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <BackgroundHeader height={170} width={w} />
@@ -32,9 +48,9 @@ const HomeScreen = ({navigation}) => {
             />
           </TouchableOpacity>
           <View style={styles.dataMember}>
-            <Text style={styles.nameMember}>Hi, Nguyen Ngoc Minh</Text>
+            <Text style={styles.nameMember}>Hi, {data.studentInfo.name}</Text>
             <Text style={[styles.nameMember, styles.mssvMember]}>
-              MSSV : 1824801030015
+              MSSV : {data.studentInfo.id}
             </Text>
           </View>
         </View>
@@ -44,56 +60,33 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.bodyScreen}>
         <View>
           <Text style={styles.txtLichHoc}>Lịch học hôm nay</Text>
-          <View style={styles.calcuView}>
-            <View style={styles.roomView}>
-              <Text style={styles.roomTxt}>C2.103-3</Text>
-            </View>
-            <View style={styles.detailCal}>
-              <Text style={styles.nameMember}>Thiết kế Web (1+1)</Text>
-              <Text>7:00 - 11:30 ( Tiết 1 - 5 )</Text>
-              <Text>T.B.M.Sơn</Text>
-            </View>
-          </View>
-          <View style={styles.calcuView}>
-            <View style={styles.roomView}>
-              <Text style={styles.roomTxt}>B-302</Text>
-            </View>
-            <View style={styles.detailCal}>
-              <Text style={styles.nameMember}>Hệ quản trị cơ sở dữ liệu</Text>
-              <Text>14:30 - 16:30 ( Tiết 8 - 10 )</Text>
-              <Text>T.V.Tài</Text>
-            </View>
-          </View>
+          <ScrollView>
+            <FlatList
+              data={timetableToday}
+              keyExtractor={(item) => item.classroom + item.start}
+              renderItem={({item}) => (
+                <View>
+                  <View style={styles.calcuView}>
+                    <View style={styles.roomView}>
+                      <Text style={styles.roomTxt}>{item.roomName}</Text>
+                    </View>
+                    <View style={styles.detailCal}>
+                      <Text style={styles.nameMember}>{item.subjectName}</Text>
+                      <Text>
+                        Tiết: {item.timeStart} đến {item.timeStop}
+                      </Text>
+                      <Text>{item.teacherName}</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+            />
+          </ScrollView>
         </View>
+
         <View>
           <Text style={styles.txtNews}>Tin tức</Text>
-          <ScrollView>
-            {/* <FlatList
-              data={this.state.news}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item}) => {
-                return (
-                  <TouchableOpacity>
-                    <View style={styles.touView}>
-                      <Image
-                        source={{uri: encodeURI(URL.linkSchool) + item.img}}
-                        style={styles.ImageNews}
-                        resizeMode="cover"
-                      />
-                      <View style={styles.mergView}>
-                        <Text numberOfLines={2} style={styles.newsTitle}>
-                          {item.name}
-                        </Text>
-                        <Text numberOfLines={2}>
-                          {item.desc.substring(0, 60)}...
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            /> */}
-          </ScrollView>
+          <Text />
         </View>
       </View>
     </SafeAreaView>

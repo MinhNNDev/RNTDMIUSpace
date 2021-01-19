@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   title: {
-    color: '#8a8b8c',
+    color: '#ffffff',
     fontWeight: '400',
     marginVertical: 8,
-    fontSize: 14,
+    fontSize: 16,
   },
   input: {
     flex: 1,
