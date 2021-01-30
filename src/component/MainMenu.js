@@ -6,14 +6,19 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const {width, height} = Dimensions.get('window');
 
-const IconGroup = ({icon, title}) => {
+const IconGroup = ({icon, title, target}) => {
+  const navigation = useNavigation();
   return (
     <View>
-      <TouchableOpacity style={styles.touch}>
+      <TouchableOpacity
+        style={styles.touch}
+        onPress={() => navigation.navigate(target)}>
         <FontAwesome name={icon} size={32} color="#174A91" />
         <Text style={styles.txtIcon}>{title}</Text>
       </TouchableOpacity>
@@ -21,26 +26,26 @@ const IconGroup = ({icon, title}) => {
   );
 };
 
-export default class BottomTab extends Component {
-  render() {
-    return (
-      <View style={styles.menuTb}>
-        <View style={styles.iconGroup}>
-          <IconGroup icon="id-card" title="Thẻ SV" />
-          <IconGroup icon="list-alt" title=" TKB " />
-          <IconGroup icon="server" title="Điểm" />
-          <IconGroup icon="bell-o" title="Tbáo" />
-        </View>
-        <View style={styles.iconGroup}>
-          <IconGroup icon="signal" title=" CTĐT" />
-          <IconGroup icon="calendar" title="Lịch thi" />
-          <IconGroup icon="newspaper-o" title="Tin tức" />
-          <IconGroup icon="bars" title=" Khác " />
-        </View>
+const BottomTab = () => {
+  return (
+    <View style={styles.menuTb}>
+      <View style={styles.iconGroup}>
+        <IconGroup icon="id-card" title="Thẻ SV" />
+        <IconGroup icon="list-alt" title=" TKB " target="TableTimes" />
+        <IconGroup icon="server" title="Điểm" />
+        <IconGroup icon="bell-o" title="Tbáo" />
       </View>
-    );
-  }
-}
+      <View style={styles.iconGroup}>
+        <IconGroup icon="signal" title=" CTĐT" />
+        <IconGroup icon="calendar" title="Lịch thi" target="TableTimes" />
+        <IconGroup icon="newspaper-o" title="Tin tức" />
+        <IconGroup icon="bars" title=" Khác " />
+      </View>
+    </View>
+  );
+};
+
+export default BottomTab;
 
 const styles = StyleSheet.create({
   menuTb: {

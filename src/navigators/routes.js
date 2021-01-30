@@ -3,9 +3,10 @@ import {StyleSheet, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import AuthScreen from '../screen/auth/index';
-import HomeScreen from '../screen/home/index';
-import ProfileScreen from '../screen/profile/index';
+import AuthScreen from '../screen/auth';
+import HomeScreen from '../screen/home';
+import ProfileScreen from '../screen/profile';
+import TableTimesScreen from '../screen/tableTimes';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TableTimes"
+        component={TableTimesScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

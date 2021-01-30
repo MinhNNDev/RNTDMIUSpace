@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 const w = Dimensions.get('window').width;
 
-const profile = ({navigation}) => {
+const profile = ({navigation, route}) => {
+  const {information} = route.params;
   return (
     <View style={styles.container}>
       <View style={styles.viewMember}>
@@ -21,28 +22,28 @@ const profile = ({navigation}) => {
         </TouchableOpacity>
 
         <View style={styles.dataMember}>
-          <Text style={styles.nameMember}>Nguyen Ngoc Minh</Text>
+          <Text style={styles.nameMember}>{information.name}</Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            MSSV : 1824801030015
+            MSSV : {information.class}
           </Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Ngày sinh: 27/10/2000
+            Ngày sinh: {information.dateOfBirth}
           </Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Khoa: Viện Kĩ thuật Công Nghệ
+            {information.facutly}
           </Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Ngành: Kĩ thuật Phần mềm
+            Ngành: {information.major}
           </Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Lớp: D18PM01
+            Lớp: {information.class}
           </Text>
         </View>
       </View>
       <TouchableOpacity
         style={[styles.btn]}
         onPress={() => navigation.navigate('Auth')}>
-        <Text style={styles.txtBtn}>Đăng xuất</Text>
+        <Text style={styles.txtBtn}>Đổi tài khoản</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.btn, {marginTop: 10}]}

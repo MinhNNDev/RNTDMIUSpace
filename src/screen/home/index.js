@@ -16,41 +16,46 @@ import MainMenu from '../../component/MainMenu';
 /* --------- */
 import {URL} from '../../api/config';
 
+const URL_API = 'http://45.119.212.43:5000/api/schedule/1824801030015';
+
 const w = Dimensions.get('window').width;
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation, route}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [information, setInfomation] = useState([]);
   const [timetableToday, setTimetableToday] = useState([]);
 
   useEffect(() => {
-    fetch('http://45.119.212.43:3000/api/student/1824801030015')
+    fetch(URL_API)
       .then((response) => response.json())
       .then((json) => {
-        setData(json);
-        setTimetableToday(
-          json.timetable.filter((s) => s.dayOfWeek === new Date().getDay()),
-        );
+        setData(json.timeTable);
+        setInfomation(json.information);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  });
+
+    console.log(data);
+    console.log(information);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <BackgroundHeader height={170} width={w} />
       <View style={styles.mainView}>
         <View style={styles.viewMember}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Profile', {information})}>
             <Image
               source={require('../../assets/img/minhdev.jpg')}
               style={styles.imageMember}
             />
           </TouchableOpacity>
           <View style={styles.dataMember}>
-            <Text style={styles.nameMember}>Hi, {data.studentInfo.name}</Text>
+            <Text style={styles.nameMember}>Hi,{information.name} </Text>
             <Text style={[styles.nameMember, styles.mssvMember]}>
-              MSSV : {data.studentInfo.id}
+              MSSV : {information.class}
             </Text>
           </View>
         </View>
@@ -62,20 +67,20 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.txtLichHoc}>Lịch học hôm nay</Text>
           <ScrollView>
             <FlatList
-              data={timetableToday}
+              data={data.sunday}
               keyExtractor={(item) => item.classroom + item.start}
               renderItem={({item}) => (
                 <View>
                   <View style={styles.calcuView}>
                     <View style={styles.roomView}>
-                      <Text style={styles.roomTxt}>{item.roomName}</Text>
+                      <Text style={styles.roomTxt}>{item.classroom}</Text>
                     </View>
                     <View style={styles.detailCal}>
-                      <Text style={styles.nameMember}>{item.subjectName}</Text>
+                      <Text style={styles.nameMember}>{item.subject}</Text>
                       <Text>
-                        Tiết: {item.timeStart} đến {item.timeStop}
+                        Tiết: {item.start} đến {item.end}
                       </Text>
-                      <Text>{item.teacherName}</Text>
+                      <Text>{item.teacher}</Text>
                     </View>
                   </View>
                 </View>
