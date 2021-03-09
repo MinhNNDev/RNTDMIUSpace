@@ -3,10 +3,14 @@ import {StyleSheet, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import AuthScreen from '../screen/auth';
-import HomeScreen from '../screen/home';
-import ProfileScreen from '../screen/profile';
-import TableTimesScreen from '../screen/tableTimes';
+import AuthScreen from '../../screen/auth';
+import HomeScreen from '../../screen/home';
+import ProfileScreen from '../../screen/profile';
+import NewsScreens from '../../screen/news';
+import DetailScreens from '../../screen/detail';
+import ExtendScreens from '../../screen/extend';
+import TableTimesScreen from '../../screen/timeline';
+import AboutScreen from '../../screen/about';
 
 const Stack = createStackNavigator();
 
@@ -29,8 +33,28 @@ const StackNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="TableTimes"
+        name="News"
+        component={NewsScreens}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Detail"
+        component={DetailScreens}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Extend"
+        component={ExtendScreens}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Timeline"
         component={TableTimesScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="About"
+        component={AboutScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

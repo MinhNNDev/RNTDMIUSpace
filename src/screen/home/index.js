@@ -3,22 +3,35 @@ import {
   Text,
   View,
   Image,
-  SafeAreaView,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
   FlatList,
 } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 /* Component */
 import BackgroundHeader from '../../component/BackgroundHeader';
-import MainMenu from '../../component/MainMenu';
+import {COLORS} from '../../utils/theme';
+import {currentDay, dayInWeek} from '../../utils/supportData/date';
 /* --------- */
+import DataNews from '../../common/database/data.json';
 import {URL} from '../../api/config';
 
 const URL_API = 'http://45.119.212.43:5000/api/schedule/1824801030015';
 
-const w = Dimensions.get('window').width;
+const {width, height} = Dimensions.get('window');
+
+const IconGroup = (props) => {
+  return (
+    <View>
+      <TouchableOpacity style={styles.touch} onPress={props.onPress}>
+        <FontAwesome name={props.icon} size={29} color="#174A91" />
+        <Text style={styles.txtIcon}>{props.title}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const HomeScreen = ({navigation, route}) => {
   const [isLoading, setLoading] = useState(true);
@@ -35,16 +48,24 @@ const HomeScreen = ({navigation, route}) => {
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-
-    console.log(data);
-    console.log(information);
   }, []);
 
+  var dayz = dayInWeek();
+  var daysEN = dayz.getDayInWeek;
+  var daysVN = dayz.getThu;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <BackgroundHeader height={170} width={w} />
+    <View style={styles.container}>
+      <BackgroundHeader height={(height / 100) * 26} width={width} />
       <View style={styles.mainView}>
         <View style={styles.viewMember}>
+          <View>
+            <Text style={styles.nameMember}>Xin chào,</Text>
+            <Text style={styles.nameMember}>{information.name}</Text>
+            <Text style={styles.date}>
+              Hôm nay, {daysVN} ngày {currentDay()}
+            </Text>
+          </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Profile', {information})}>
             <Image
@@ -52,22 +73,36 @@ const HomeScreen = ({navigation, route}) => {
               style={styles.imageMember}
             />
           </TouchableOpacity>
-          <View style={styles.dataMember}>
-            <Text style={styles.nameMember}>Hi,{information.name} </Text>
-            <Text style={[styles.nameMember, styles.mssvMember]}>
-              MSSV : {information.class}
-            </Text>
-          </View>
         </View>
-        <MainMenu />
+      </View>
+      <View style={styles.menuTb}>
+        <View style={styles.iconGroup}>
+          <IconGroup icon="id-card" title="Thẻ SV" />
+          <IconGroup
+            icon="list-alt"
+            title=" TKB "
+            onPress={() => navigation.navigate('Timeline', {information})}
+          />
+          <IconGroup icon="bell-o" title="Tbáo" />
+          <IconGroup
+            icon="newspaper-o"
+            title="Tin tức"
+            onPress={() => navigation.navigate('News')}
+          />
+          <IconGroup
+            icon="navicon"
+            title="Khác"
+            onPress={() => navigation.navigate('Extend', {information})}
+          />
+        </View>
       </View>
 
       <View style={styles.bodyScreen}>
         <View>
-          <Text style={styles.txtLichHoc}>Lịch học hôm nay</Text>
+          <Text style={styles.title}>Lịch học hôm nay</Text>
           <ScrollView>
             <FlatList
-              data={data.sunday}
+              data={data.monday}
               keyExtractor={(item) => item.classroom + item.start}
               renderItem={({item}) => (
                 <View>
@@ -76,7 +111,7 @@ const HomeScreen = ({navigation, route}) => {
                       <Text style={styles.roomTxt}>{item.classroom}</Text>
                     </View>
                     <View style={styles.detailCal}>
-                      <Text style={styles.nameMember}>{item.subject}</Text>
+                      <Text style={styles.nameSubject}>{item.subject}</Text>
                       <Text>
                         Tiết: {item.start} đến {item.end}
                       </Text>
@@ -89,12 +124,39 @@ const HomeScreen = ({navigation, route}) => {
           </ScrollView>
         </View>
 
-        <View>
-          <Text style={styles.txtNews}>Tin tức</Text>
-          <Text />
+        <View style={styles.container}>
+          <Text style={styles.title}>Tin tức</Text>
+          <FlatList
+            data={DataNews}
+            keyExtractor={(item) => item.id_name}
+            renderItem={({item}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Detail', {item})}>
+                  <View style={styles.viewImgTitNews}>
+                    <Image
+                      source={{
+                        uri: item.img,
+                      }}
+                      style={styles.imgNewsProject}
+                      resizeMode="cover"
+                    />
+                    <View style={styles.titledesc}>
+                      <Text style={styles.txtNews} numberOfLines={2}>
+                        {item.name || item.title}
+                      </Text>
+                      <Text style={styles.textTitleNews} numberOfLines={2}>
+                        {item.desc.substring(0, 60)}...
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 export default HomeScreen;
@@ -102,50 +164,56 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   mainView: {
     position: 'absolute',
   },
+  title: {
+    marginTop: 10,
+    fontSize: 18,
+    color: '#001242',
+    fontWeight: 'bold',
+  },
   viewMember: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 20,
-    marginLeft: 15,
+    marginLeft: 20,
+  },
+  nameSubject: {
+    fontSize: 16,
+    color: COLORS.secondary,
+    fontWeight: 'bold',
   },
   nameMember: {
-    fontSize: 16,
-    color: '#001242',
+    fontSize: 24,
+    color: COLORS.white,
     fontWeight: 'bold',
   },
-  mssvMember: {
-    fontSize: 13,
+  date: {
+    fontSize: 18,
+    color: COLORS.white,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
   imageMember: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     borderWidth: 3,
     borderColor: '#fff9',
-  },
-  dataMember: {
-    marginLeft: 10,
-    flexDirection: 'column',
+    marginLeft: 40,
   },
   bodyScreen: {
+    flex: 1,
     marginHorizontal: 15,
     marginTop: 5,
-  },
-  txtLichHoc: {
-    marginTop: 80,
-    fontSize: 17,
-    color: '#001242',
-    fontWeight: 'bold',
   },
   roomView: {
     width: 70,
     height: 70,
     borderRadius: 15,
-    backgroundColor: '#002B66',
+    backgroundColor: COLORS.secondary,
     marginTop: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -163,29 +231,58 @@ const styles = StyleSheet.create({
     marginLeft: 11,
   },
   txtNews: {
-    marginTop: 5,
-    fontSize: 17,
+    fontSize: 16,
     color: '#001242',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
-  ImageNews: {
-    width: 78,
-    height: 65,
-    borderRadius: 3,
-    marginRight: 10,
+  //---------------TABS----------------//
+  menuTb: {
+    width: width - 40,
+    height: 80,
+    backgroundColor: '#FFF',
+    borderRadius: 5,
+    marginHorizontal: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.9,
+    shadowRadius: 5,
+    elevation: 11,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: -40,
   },
-  touView: {
+  touch: {
+    alignItems: 'center',
+    width: 50,
+  },
+  iconGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: 20,
+  },
+  txtIcon: {
+    fontSize: 12,
+    marginTop: 3,
+  },
+  //---------------FLATLIST_NEWS----------------//
+  viewImgTitNews: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 5,
   },
-  mergView: {
+  imgNewsProject: {
+    width: 120,
+    height: 70,
+    borderRadius: 3,
+    marginHorizontal: 10,
+  },
+  titledesc: {
     flex: 1,
     flexDirection: 'column',
-    marginVertical: 6,
+    marginHorizontal: 5,
   },
-  newsTitle: {
+  textTitleNews: {
     fontSize: 14,
-    color: '#001242',
-    fontWeight: 'bold',
   },
 });

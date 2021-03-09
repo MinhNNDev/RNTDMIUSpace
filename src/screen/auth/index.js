@@ -31,7 +31,7 @@ const LoginScreen = ({navigation}) => {
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-                colors={['#001f45', '#45003d']}
+                colors={['#283048', '#616161']}
                 style={styles.linearBtn}>
                 <Text style={styles.txtBtnLogin}>Login</Text>
               </LinearGradient>

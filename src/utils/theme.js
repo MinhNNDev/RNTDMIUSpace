@@ -1,25 +1,29 @@
 import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 export const BANNER_H = 350;
-export const TOPNAVI_H = 50;
+export const TOPNAVI_H = 60;
 
 export const COLORS = {
   // base colors / color 2021
-  primary: '#45003d', //
-  secondary: '#939597', // ANTONE  17-5104 TCX Ultimate Gray
+  primary: '#525252',
+  secondary: '#3d72b4',
 
-  background: '#212226', // gray
+  text: '#001242',
+
+  // gradient
+  gradientStart: '#000428',
+  gradientEnd: '#004e92',
+  //'#525252', '#3d72b4'
 
   // colors
   black: '#1E1F20',
   white: '#FFFFFF',
 
-  lightGray: '#F5F5F6',
+  lightGray: '#939597', // ANTONE  17-5104 TCX Ultimate Gray
   lightGray2: '#F6F6F7',
-  lightGray3: '#EFEFF1',
-  lightGray4: '#F8F8F9',
-  transparent: 'transparent',
   darkgray: '#898C95',
+
+  transparent: 'transparent',
 };
 
 export const SIZES = {

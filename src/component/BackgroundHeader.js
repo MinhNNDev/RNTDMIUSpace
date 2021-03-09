@@ -10,7 +10,7 @@ const BackgroundHeader = (props) => {
       <LinearGradient
         start={{x: 0, y: 1}}
         end={{x: 1, y: 0}}
-        colors={['#4F00BC', '#29ABE2']}>
+        colors={['#525252', '#3d72b4']}>
         <View style={{height: props.height, width: props.width}} />
         <View style={styles.line} />
         <View style={[styles.line, styles.linePos1]} />
@@ -23,15 +23,11 @@ const BackgroundHeader = (props) => {
 export default BackgroundHeader;
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   topBg: {
-    // position: 'absolute',
+    position: 'absolute',
     marginTop: 0,
     width: width,
-    height: 170,
+    height: (height / 100) * 25,
   },
   line: {
     position: 'absolute',

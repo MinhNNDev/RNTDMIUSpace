@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,30 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+
+import {TopNavigation} from '../../component';
+
 const w = Dimensions.get('window').width;
 
-const profile = ({navigation, route}) => {
+const Profile = ({navigation, route}) => {
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
   const {information} = route.params;
+  const URL_API = `http://45.119.212.43:5000/api/schedule/${information.studentCode}`;
+
+  useEffect(() => {
+    fetch(URL_API)
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json.information);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <View style={styles.container}>
+      <TopNavigation title="Tài khoản" backBtn />
       <View style={styles.viewMember}>
         <TouchableOpacity>
           <Image
@@ -20,26 +38,49 @@ const profile = ({navigation, route}) => {
             style={styles.imageMember}
           />
         </TouchableOpacity>
+      </View>
 
-        <View style={styles.dataMember}>
-          <Text style={styles.nameMember}>{information.name}</Text>
+      <View style={styles.viewInfo}>
+        <View style={styles.infoBar}>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            MSSV : {information.class}
+            Họ tên Sinh viên:
           </Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Ngày sinh: {information.dateOfBirth}
+            {data.name}
           </Text>
+        </View>
+        <View style={styles.infoBar}>
+          <Text style={[styles.nameMember, styles.mssvMember]}>MSSV:</Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            {information.facutly}
+            {data.studentCode}
           </Text>
+        </View>
+        <View style={styles.infoBar}>
+          <Text style={[styles.nameMember, styles.mssvMember]}>Ngày sinh:</Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Ngành: {information.major}
+            {data.dateOfBirth}
           </Text>
+        </View>
+        <View style={styles.infoBar}>
+          <Text style={[styles.nameMember, styles.mssvMember]}>Lớp:</Text>
           <Text style={[styles.nameMember, styles.mssvMember]}>
-            Lớp: {information.class}
+            {data.class}
+          </Text>
+        </View>
+        <View style={styles.infoBar}>
+          <Text style={[styles.nameMember, styles.mssvMember]}>Ngành học:</Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            {data.major}
+          </Text>
+        </View>
+        <View style={styles.infoBar}>
+          <Text style={[styles.nameMember, styles.mssvMember]}>Khoa:</Text>
+          <Text style={[styles.nameMember, styles.mssvMember]}>
+            {data.facutly}
           </Text>
         </View>
       </View>
+
       <TouchableOpacity
         style={[styles.btn]}
         onPress={() => navigation.navigate('Auth')}>
@@ -54,7 +95,7 @@ const profile = ({navigation, route}) => {
   );
 };
 
-export default profile;
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
@@ -64,18 +105,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
+  viewInfo: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
   nameMember: {
     fontSize: 18,
     color: '#001242',
     fontWeight: 'bold',
   },
-  txtBtn: {
-    fontSize: 16,
-    color: '#000',
-    fontWeight: '600',
-  },
-  mssvMember: {
-    fontSize: 16,
+  infoBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
   },
   imageMember: {
     width: 100,
