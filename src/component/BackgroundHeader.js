@@ -23,12 +23,6 @@ const BackgroundHeader = (props) => {
 export default BackgroundHeader;
 
 const styles = StyleSheet.create({
-  topBg: {
-    position: 'absolute',
-    marginTop: 0,
-    width: width,
-    height: (height / 100) * 25,
-  },
   line: {
     position: 'absolute',
     height: height,

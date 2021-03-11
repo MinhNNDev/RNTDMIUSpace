@@ -30,8 +30,9 @@ const OptionBar = (props) => {
   );
 };
 
-const Extends = () => {
+const Extends = ({route}) => {
   const navigation = useNavigation();
+  const {information} = route.params;
   return (
     <>
       <TopNavigation title="Tuỳ chọn" backBtn />
@@ -39,24 +40,24 @@ const Extends = () => {
         <View style={styles.top}>
           <TextGradient style={styles.name}>Infomation Space</TextGradient>
           <OptionBar
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate('Profile', {information})}
             icon="user"
-            title="Account"
+            title="Tài khoản"
           />
           <OptionBar
             onPress={() => navigation.navigate('Privacy')}
             icon="lock"
-            title="Privacy"
+            title="Điều khoản sử dụng"
           />
           <OptionBar
             onPress={() => navigation.navigate('Support')}
             icon="customerservice"
-            title="Support"
+            title="Hỗ trợ"
           />
           <OptionBar
             onPress={() => navigation.navigate('Setting')}
             icon="setting"
-            title="Setting"
+            title="Cài đặt"
           />
           <OptionBar
             onPress={() => navigation.navigate('About')}
@@ -67,7 +68,7 @@ const Extends = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Auth')}
           style={styles.btn}>
-          <Text style={[Styles.textAlign, styles.content]}>Log out</Text>
+          <Text style={[Styles.textAlign, styles.content]}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 5,
-    marginBottom: 20,
+    marginBottom: 0,
     justifyContent: 'space-between',
   },
   name: {

@@ -48,7 +48,11 @@ const TopNavigation = (props) => {
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={styles.postisionBack}>
-                <AntDesign name="arrowleft" size={23} color="#001f45" />
+                <AntDesign
+                  name="arrowleft"
+                  size={23}
+                  style={styles.icons(isTransparent)}
+                />
               </TouchableOpacity>
             )}
             <Text style={styles.title(isTransparent)}>{title}</Text>
@@ -76,6 +80,9 @@ const styles = {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 20,
+    color: isTransparent ? '#FFF' : '#000',
+  }),
+  icons: (isTransparent) => ({
     color: isTransparent ? '#FFF' : '#000',
   }),
 };

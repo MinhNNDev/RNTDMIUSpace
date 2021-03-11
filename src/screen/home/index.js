@@ -11,14 +11,11 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 /* Component */
-import BackgroundHeader from '../../component/BackgroundHeader';
+import {BackgroundHeader, News} from '../../component';
 import {COLORS} from '../../utils/theme';
 import {currentDay, dayInWeek} from '../../utils/supportData/date';
 /* --------- */
 import DataNews from '../../common/database/data.json';
-import {URL} from '../../api/config';
-
-const URL_API = 'http://45.119.212.43:5000/api/schedule/1824801030015';
 
 const {width, height} = Dimensions.get('window');
 
@@ -39,6 +36,13 @@ const HomeScreen = ({navigation, route}) => {
   const [information, setInfomation] = useState([]);
   const [timetableToday, setTimetableToday] = useState([]);
 
+  const {id} = route.params;
+  const URL_API = `http://45.119.212.43:5000/api/schedule/${id}`;
+
+  var dayz = dayInWeek();
+  var daysEN = dayz.getDayInWeek;
+  var daysVN = dayz.getThu;
+
   useEffect(() => {
     fetch(URL_API)
       .then((response) => response.json())
@@ -49,10 +53,6 @@ const HomeScreen = ({navigation, route}) => {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
-  var dayz = dayInWeek();
-  var daysEN = dayz.getDayInWeek;
-  var daysVN = dayz.getThu;
 
   return (
     <View style={styles.container}>
@@ -69,7 +69,7 @@ const HomeScreen = ({navigation, route}) => {
           <TouchableOpacity
             onPress={() => navigation.navigate('Profile', {information})}>
             <Image
-              source={require('../../assets/img/minhdev.jpg')}
+              source={require('../../assets/img/blank.png')}
               style={styles.imageMember}
             />
           </TouchableOpacity>
@@ -77,13 +77,16 @@ const HomeScreen = ({navigation, route}) => {
       </View>
       <View style={styles.menuTb}>
         <View style={styles.iconGroup}>
-          <IconGroup icon="id-card" title="Thẻ SV" />
+          <IconGroup
+            icon="id-card"
+            title="Thẻ SV"
+            onPress={() => navigation.navigate('cardid', {information})}
+          />
           <IconGroup
             icon="list-alt"
             title=" TKB "
-            onPress={() => navigation.navigate('Timeline', {information})}
+            onPress={() => navigation.navigate('Timeline', {id})}
           />
-          <IconGroup icon="bell-o" title="Tbáo" />
           <IconGroup
             icon="newspaper-o"
             title="Tin tức"
@@ -105,7 +108,10 @@ const HomeScreen = ({navigation, route}) => {
               data={data.monday}
               keyExtractor={(item) => item.classroom + item.start}
               renderItem={({item}) => (
-                <View>
+                <View
+                  style={{
+                    paddingHorizontal: 10,
+                  }}>
                   <View style={styles.calcuView}>
                     <View style={styles.roomView}>
                       <Text style={styles.roomTxt}>{item.classroom}</Text>
@@ -122,39 +128,9 @@ const HomeScreen = ({navigation, route}) => {
               )}
             />
           </ScrollView>
-        </View>
-
-        <View style={styles.container}>
           <Text style={styles.title}>Tin tức</Text>
-          <FlatList
-            data={DataNews}
-            keyExtractor={(item) => item.id_name}
-            renderItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Detail', {item})}>
-                  <View style={styles.viewImgTitNews}>
-                    <Image
-                      source={{
-                        uri: item.img,
-                      }}
-                      style={styles.imgNewsProject}
-                      resizeMode="cover"
-                    />
-                    <View style={styles.titledesc}>
-                      <Text style={styles.txtNews} numberOfLines={2}>
-                        {item.name || item.title}
-                      </Text>
-                      <Text style={styles.textTitleNews} numberOfLines={2}>
-                        {item.desc.substring(0, 60)}...
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-          />
         </View>
+        <News />
       </View>
     </View>
   );
@@ -182,7 +158,7 @@ const styles = StyleSheet.create({
   },
   nameSubject: {
     fontSize: 16,
-    color: COLORS.secondary,
+    color: COLORS.text,
     fontWeight: 'bold',
   },
   nameMember: {

@@ -48,12 +48,13 @@ class Detail extends Component {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }, []);
   };
 
   render() {
     const {item} = this.props.route.params;
-    var dataContent = entities.decode(item.content);
+    const {detail} = this.state;
+    var dataContent = entities.decode(detail.content);
     return (
       <SafeAreaView style={styles.screen}>
         <TopNavigation title="Chi tiết" scrollA={this.state.scrollA} backBtn />
@@ -83,9 +84,6 @@ class Detail extends Component {
               </View>
             </View>
             <View style={styles.content}>
-              <Text style={styles.ViewAndTime}>
-                {item.cat_name}|{item.id_name}
-              </Text>
               <HTML
                 html={dataContent}
                 tagsStyles={{

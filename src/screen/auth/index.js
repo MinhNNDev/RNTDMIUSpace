@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,26 +7,40 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import BackgroundHeader from '../../component/BackgroundHeader';
-import InputValue from '../../component/InputValue';
+import {BackgroundHeader, InputValue, TextGradient} from '../../component';
+
 import LinearGradient from 'react-native-linear-gradient';
-import TextGradient from '../../component/TextGradient';
+
+import {Styles} from '../../utils/Styles';
 
 const {width, height} = Dimensions.get('window');
 
 const LoginScreen = ({navigation}) => {
+  const [id, setID] = useState('');
+  const [Password, setPassword] = useState('');
   return (
     <SafeAreaView>
       <BackgroundHeader height={height} width={width} />
       <View style={styles.container}>
-        <View style={styles.mainLogin}>
-          <TextGradient style={styles.txtLogo}>INFORMARTION SPACE</TextGradient>
+        <TextGradient style={styles.txtLogo}>INFORMARTION SPACE</TextGradient>
+        <View>
           <Text style={styles.txtLogin}> Đăng nhập </Text>
-          <InputValue title="MSSV" icon="user" />
-          <InputValue title="Mật khẩu" icon="lock" isPassword />
+          <InputValue
+            title="MSSV"
+            icon="user"
+            onChangeText={(username) => setID(username)}
+            value={id}
+          />
+          <InputValue
+            title="Mật khẩu"
+            icon="lock"
+            onChangeText={(password) => setPassword(password)}
+            value={Password}
+            isPassword
+          />
           <View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => navigation.navigate('Home', {id})}
               style={styles.btnTouch}>
               <LinearGradient
                 start={{x: 0, y: 0}}
@@ -37,6 +51,10 @@ const LoginScreen = ({navigation}) => {
               </LinearGradient>
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={styles.copyright}>
+          <Text style={Styles.textAlign}>All Rights reserved.</Text>
+          <Text style={Styles.textAlign}>Copyright © 2021 MinhNNdev</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -49,9 +67,12 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     flex: 1,
+    marginHorizontal: 30,
   },
   mainLogin: {
     marginHorizontal: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   txtLogo: {
     fontSize: 30,
@@ -60,9 +81,9 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   txtLogin: {
-    marginVertical: 20,
+    textAlign: 'center',
     color: '#FFF',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
   },
   txtInput: {
@@ -89,5 +110,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#FFF',
     textAlign: 'center',
+  },
+  copyright: {
+    bottom: -220,
   },
 });

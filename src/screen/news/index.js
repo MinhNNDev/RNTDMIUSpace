@@ -8,66 +8,21 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
 
-import {COLORS, SIZES} from '../../utils/theme';
-import {Styles} from '../../utils/Styles';
-import {URL} from '../../api/config';
+import {COLORS} from '../../utils/theme';
 
-import {TextGradient, TopNavigation} from '../../component';
+import {News, TopNavigation} from '../../component';
 
-const News = () => {
-  const [dataNews, setDataNews] = useState([]);
-  const [dataEvent, setEvent] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-
-  fetch(URL.linkFetchData)
-    .then((response) => response.json())
-    .then((json) => {
-      setDataNews(json);
-    })
-    .catch((err) => {
-      console.log(err);
-    }, []);
-
-  const navigation = useNavigation();
+const ListNews = () => {
   return (
     <View style={styles.container}>
       <TopNavigation title="Tin tức" backBtn />
-      <View style={styles.viewNews}>
-        <FlatList
-          data={dataNews}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Detail', {item})}>
-                <View style={styles.viewImgTitNews}>
-                  <Image
-                    source={{uri: item.img}}
-                    style={styles.imgNewsProject}
-                    resizeMode="cover"
-                  />
-                  <View style={styles.titledesc}>
-                    <Text style={styles.txtNews} numberOfLines={2}>
-                      {item.name || item.title}
-                    </Text>
-                    <Text style={styles.textTitleNews} numberOfLines={2}>
-                      {item.desc.substring(0, 60)}...
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
+      <News />
     </View>
   );
 };
 
-export default News;
+export default ListNews;
 
 const styles = StyleSheet.create({
   container: {
