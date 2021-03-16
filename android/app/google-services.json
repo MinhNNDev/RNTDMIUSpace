@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "702227492508",
+    "project_id": "infomationspace",
+    "storage_bucket": "infomationspace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702227492508:android:f27ea5612ffb9db9a70759",
+        "android_client_info": {
+          "package_name": "com.informationspace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702227492508-6rlakv1dffm8mkq3f4bva2iimf22tb4u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ35Ygvvtf8AnCyyyJftNxkl9Mqdmf0ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702227492508-6rlakv1dffm8mkq3f4bva2iimf22tb4u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -38,13 +38,12 @@ class Detail extends Component {
 
     fetch(
       encodeURI(
-        `http://10.0.2.2:3000/api/news/${item.cat_name}|${item.id_name}`,
+        `http://45.119.212.43/api/news/${item.cat_name}|${item.id_name}`,
       ),
     )
       .then((response) => response.json())
       .then((response) => {
         this.setState({detail: response});
-        console.log(response);
       })
       .catch((err) => {
         console.log(err);
