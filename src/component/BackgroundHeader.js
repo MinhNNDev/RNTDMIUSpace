@@ -6,7 +6,7 @@ const {width, height} = Dimensions.get('window');
 
 const BackgroundHeader = (props) => {
   return (
-    <View>
+    <View style={props.style}>
       <LinearGradient
         start={{x: 0, y: 1}}
         end={{x: 1, y: 0}}

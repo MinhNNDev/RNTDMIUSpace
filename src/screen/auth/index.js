@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   View,
-  SafeAreaView,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
@@ -12,52 +11,102 @@ import {BackgroundHeader, InputValue, TextGradient} from '../../component';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Styles} from '../../utils/Styles';
+import {COLORS} from '../../utils/theme';
 
 const {width, height} = Dimensions.get('window');
 
 const LoginScreen = ({navigation}) => {
   const [id, setID] = useState('');
   const [Password, setPassword] = useState('');
+
+  const [tab, setTab] = React.useState(0);
   return (
-    <SafeAreaView>
-      <BackgroundHeader height={height} width={width} />
+    <>
+      <BackgroundHeader height={height} width={width} style={styles.position} />
       <View style={styles.container}>
-        <TextGradient style={styles.txtLogo}>INFORMARTION SPACE</TextGradient>
         <View>
-          <Text style={styles.txtLogin}> Đăng nhập </Text>
-          <InputValue
-            title="MSSV"
-            icon="user"
-            onChangeText={(username) => setID(username)}
-            value={id}
-          />
-          <InputValue
-            title="Mật khẩu"
-            icon="lock"
-            onChangeText={(password) => setPassword(password)}
-            value={Password}
-            isPassword
-          />
+          <Text style={styles.txtLogo}>Information Space</Text>
+          <Text style={styles.txtLogin}>
+            {tab === 0 ? 'Đăng nhập' : 'Đăng kí'}
+          </Text>
           <View>
+            {tab === 0 && (
+              <View>
+                <InputValue
+                  title="MSSV"
+                  icon="user"
+                  keyboardType="numeric"
+                  onChangeText={(username) => setID(username)}
+                  value={id}
+                />
+                <InputValue
+                  title="Mật khẩu"
+                  icon="lock"
+                  onChangeText={(password) => setPassword(password)}
+                  value={Password}
+                  isPassword
+                />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Home', {id})}
+                  style={styles.btnTouch}>
+                  <LinearGradient
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    colors={['#283048', '#616161']}
+                    style={styles.linearBtn}>
+                    <Text style={styles.txtBtn}>Đăng nhập</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
+            {tab === 1 && (
+              <View>
+                <InputValue
+                  title="MSSV"
+                  icon="user"
+                  onChangeText={(username) => setID(username)}
+                  value={id}
+                />
+                <InputValue
+                  title="Mật khẩu"
+                  icon="lock"
+                  onChangeText={(password) => setPassword(password)}
+                  value={Password}
+                  isPassword
+                />
+                <InputValue
+                  title="Nhập lại mật khẩu"
+                  icon="lock"
+                  onChangeText={(password) => setPassword(password)}
+                  value={Password}
+                  isPassword
+                />
+                <TouchableOpacity style={styles.btnTouch}>
+                  <LinearGradient
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    colors={['#283048', '#616161']}
+                    style={styles.linearBtn}>
+                    <Text style={styles.txtBtn}>Đăng kí</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
             <TouchableOpacity
-              onPress={() => navigation.navigate('Home', {id})}
-              style={styles.btnTouch}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['#283048', '#616161']}
-                style={styles.linearBtn}>
-                <Text style={styles.txtBtnLogin}>Login</Text>
-              </LinearGradient>
+              onPress={() => (tab === 1 ? setTab(0) : setTab(1))}
+              style={styles.txtBtn}>
+              <Text style={styles.txtBtn}>
+                {tab === 1 ? 'Login' : 'Register'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.copyright}>
+        <View>
           <Text style={Styles.textAlign}>All Rights reserved.</Text>
           <Text style={Styles.textAlign}>Copyright © 2021 MinhNNdev</Text>
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -65,25 +114,26 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
     flex: 1,
     marginHorizontal: 30,
-  },
-  mainLogin: {
-    marginHorizontal: 20,
+    marginVertical: 20,
     justifyContent: 'space-between',
-    flexDirection: 'column',
+  },
+  position: {
+    position: 'absolute',
   },
   txtLogo: {
     fontSize: 30,
     fontWeight: '700',
     textAlign: 'center',
-    padding: 25,
+    padding: 15,
+    color: COLORS.gradientEnd,
+    textTransform: 'uppercase',
   },
   txtLogin: {
     textAlign: 'center',
     color: '#FFF',
-    fontSize: 25,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   txtInput: {
@@ -96,7 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   btnTouch: {
-    flex: 1,
     alignItems: 'center',
   },
   linearBtn: {
@@ -106,12 +155,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 30,
   },
-  txtBtnLogin: {
+  txtBtn: {
     fontSize: 17,
     color: '#FFF',
     textAlign: 'center',
-  },
-  copyright: {
-    bottom: -220,
   },
 });
