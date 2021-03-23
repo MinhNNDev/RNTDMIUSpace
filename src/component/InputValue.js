@@ -16,6 +16,7 @@ export default function InputValue({
   onChangeText,
   keyboardType,
   value,
+  onEndEditing,
 }) {
   const [show, setShow] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -31,6 +32,7 @@ export default function InputValue({
           onChangeText={onChangeText}
           secureTextEntry={isPassword ? visible : !visible}
           value={value}
+          onEndEditing={onEndEditing}
         />
         {isPassword && (
           <TouchableOpacity

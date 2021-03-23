@@ -31,8 +31,8 @@ const timeHour = (hour) => {
   return timeH;
 };
 const TimeLine = ({route}) => {
-  const {id} = route.params;
-  const URL_API = `http://45.119.212.43/api/student/${id}`;
+  const {information} = route.params;
+  const URL_API = `http://45.119.212.43/api/student/1824801030015`;
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);

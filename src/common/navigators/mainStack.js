@@ -1,9 +1,6 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import AuthScreen from '../../screen/auth';
 import HomeScreen from '../../screen/home';
 import ProfileScreen from '../../screen/profile';
 import CardScreen from '../../screen/card';
@@ -19,14 +16,9 @@ import SupportScreen from '../../screen/extend/SupportScreen';
 
 const Stack = createStackNavigator();
 
-const StackNavigator = () => {
+const AppStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Auth"
-        component={AuthScreen}
-        options={{headerShown: false}}
-      />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -38,7 +30,7 @@ const StackNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="cardid"
+        name="CardId"
         component={CardScreen}
         options={{headerShown: false}}
       />
@@ -86,19 +78,7 @@ const StackNavigator = () => {
   );
 };
 const AppContainer = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <StackNavigator />
-      </NavigationContainer>
-    </SafeAreaView>
-  );
+  return <AppStack />;
 };
 
 export default AppContainer;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

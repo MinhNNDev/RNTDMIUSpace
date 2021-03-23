@@ -30,14 +30,13 @@ const IconGroup = (props) => {
   );
 };
 
-const HomeScreen = ({navigation, route}) => {
+const HomeScreen = ({navigation}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [information, setInfomation] = useState([]);
   const [timetableToday, setTimetableToday] = useState([]);
 
-  const {id} = route.params;
-  const URL_API = `http://45.119.212.43:5000/api/schedule/${id}`;
+  const URL_API = `http://45.119.212.43:5000/api/schedule/1824801030015`;
 
   var dayz = dayInWeek();
   var daysEN = dayz.getDayInWeek;
@@ -52,7 +51,7 @@ const HomeScreen = ({navigation, route}) => {
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [URL_API]);
 
   return (
     <View style={styles.container}>
@@ -80,12 +79,12 @@ const HomeScreen = ({navigation, route}) => {
           <IconGroup
             icon="id-card"
             title="Thẻ SV"
-            onPress={() => navigation.navigate('cardid', {information})}
+            onPress={() => navigation.navigate('CardId', {information})}
           />
           <IconGroup
             icon="list-alt"
             title=" TKB "
-            onPress={() => navigation.navigate('Timeline', {id})}
+            onPress={() => navigation.navigate('Timeline', {information})}
           />
           <IconGroup
             icon="newspaper-o"

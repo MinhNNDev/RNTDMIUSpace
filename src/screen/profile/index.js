@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,14 +7,13 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-
+import {AuthContext} from '../../common/context/context';
 import {TopNavigation} from '../../component';
 
 const w = Dimensions.get('window').width;
 
 const Profile = ({navigation, route}) => {
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const {signOut} = useContext(AuthContext);
 
   const {information} = route.params;
   return (
@@ -78,7 +77,9 @@ const Profile = ({navigation, route}) => {
         </View>
         <TouchableOpacity
           style={[styles.btn, {marginTop: 10}]}
-          onPress={() => navigation.navigate('Auth')}>
+          onPress={() => {
+            signOut();
+          }}>
           <Text style={styles.txtBtn}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
