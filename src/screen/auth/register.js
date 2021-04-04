@@ -13,7 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {BackgroundHeader, InputValue, TextGradient} from '../../component';
 
-import {AuthContext} from '../../common/context/context';
+// import {AuthContext} from '../../common/context/context';
 import Users from '../../common/database/model/users';
 
 import {Styles} from '../../utils/Styles';
@@ -96,7 +96,7 @@ const LoginScreen = ({navigation}) => {
                 {data.isValidUser ? null : (
                   <Animatable.View animation="fadeInLeft" duration={500}>
                     <Text style={styles.errorMsg}>
-                      Username must be 4 characters long.
+                      Tên người dùng phải dài 4 ký tự.
                     </Text>
                   </Animatable.View>
                 )}
@@ -194,5 +194,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#FFF',
     textAlign: 'center',
+  },
+  errorMsg: {
+    color: 'red',
   },
 });

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   Text,
   View,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  ToastAndroid,
+  BackHandler,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 /* Component */
@@ -15,7 +17,10 @@ import {BackgroundHeader, News} from '../../component';
 import {COLORS} from '../../utils/theme';
 import {currentDay, dayInWeek} from '../../utils/supportData/date';
 /* --------- */
-import DataNews from '../../common/database/data.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Users} from '../../common/database/model/users';
+import {useFocusEffect} from '@react-navigation/core';
+import {UserContext} from '../../common/context/UserContext';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,19 +35,42 @@ const IconGroup = (props) => {
   );
 };
 
+let backCount = 0;
 const HomeScreen = ({navigation}) => {
+  const uContext = useContext(UserContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [information, setInfomation] = useState([]);
   const [timetableToday, setTimetableToday] = useState([]);
 
-  const URL_API = `http://45.119.212.43:5000/api/schedule/1824801030015`;
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (backCount == 0) {
+          backCount++;
+          ToastAndroid.show('Press again to exit', ToastAndroid.SHORT);
+          setTimeout(() => {
+            backCount = 0;
+          }, 2000);
+          return true;
+        }
+        BackHandler.exitApp();
+        return true;
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, []),
+  );
+
+  const URL_API = `http://45.119.212.43:5000/api/schedule/${uContext.data.username}`;
 
   var dayz = dayInWeek();
   var daysEN = dayz.getDayInWeek;
   var daysVN = dayz.getThu;
 
-  useEffect(() => {
+  const FecthData = () => {
     fetch(URL_API)
       .then((response) => response.json())
       .then((json) => {
@@ -51,7 +79,11 @@ const HomeScreen = ({navigation}) => {
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, [URL_API]);
+  };
+
+  useEffect(() => {
+    FecthData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -104,7 +136,7 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.title}>Lịch học hôm nay</Text>
           <ScrollView>
             <FlatList
-              data={data.monday}
+              data={data[daysEN]}
               keyExtractor={(item) => item.classroom + item.start}
               renderItem={({item}) => (
                 <View

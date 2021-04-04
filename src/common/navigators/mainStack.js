@@ -1,6 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import SignInScreen from '../../screen/auth/login';
+import SignUpScreen from '../../screen/auth/register';
+
 import HomeScreen from '../../screen/home';
 import ProfileScreen from '../../screen/profile';
 import CardScreen from '../../screen/card';
@@ -16,12 +19,22 @@ import SupportScreen from '../../screen/extend/SupportScreen';
 
 const Stack = createStackNavigator();
 
-const AppStack = () => {
+const AppContainer = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SignIn">
       <Stack.Screen
         name="Home"
         component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -76,9 +89,6 @@ const AppStack = () => {
       />
     </Stack.Navigator>
   );
-};
-const AppContainer = () => {
-  return <AppStack />;
 };
 
 export default AppContainer;

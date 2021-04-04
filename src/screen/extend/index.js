@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {COLORS} from '../../utils/theme';
-import {Styles} from '../../utils/Styles';
 
 import {TextGradient, TopNavigation} from '../../component';
 
@@ -65,11 +64,6 @@ const Extends = ({route}) => {
             title="Info"
           />
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Auth')}
-          style={styles.btn}>
-          <Text style={[Styles.textAlign, styles.content]}>Đăng xuất</Text>
-        </TouchableOpacity>
       </View>
     </>
   );

@@ -32,7 +32,7 @@ const timeHour = (hour) => {
 };
 const TimeLine = ({route}) => {
   const {information} = route.params;
-  const URL_API = `http://45.119.212.43/api/student/1824801030015`;
+  const URL_API = `http://45.119.212.43/api/student/${information.studentCode}`;
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -53,7 +53,6 @@ const TimeLine = ({route}) => {
     <>
       <TopNavigation title="Thời khóa biểu" backBtn />
       <View style={styles.container}>
-        <ScrollView>
           <FlatList
             data={data}
             keyExtractor={(item) => item}
@@ -87,7 +86,6 @@ const TimeLine = ({route}) => {
               );
             }}
           />
-        </ScrollView>
       </View>
     </>
   );

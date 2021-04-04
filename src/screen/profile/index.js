@@ -7,13 +7,19 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {AuthContext} from '../../common/context/context';
+import {UserContext} from '../../common/context/UserContext';
 import {TopNavigation} from '../../component';
 
 const w = Dimensions.get('window').width;
 
 const Profile = ({navigation, route}) => {
-  const {signOut} = useContext(AuthContext);
+  const uContext = useContext(UserContext);
+  const _logOut = () => {
+    setTimeout(() => {
+      uContext.logout();
+      navigation.replace('SignIn');
+    }, 10);
+  };
 
   const {information} = route.params;
   return (
@@ -78,7 +84,7 @@ const Profile = ({navigation, route}) => {
         <TouchableOpacity
           style={[styles.btn, {marginTop: 10}]}
           onPress={() => {
-            signOut();
+            _logOut();
           }}>
           <Text style={styles.txtBtn}>Đăng xuất</Text>
         </TouchableOpacity>

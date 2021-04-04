@@ -12,15 +12,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import {BackgroundHeader, InputValue, TextGradient} from '../../component';
 
-import {AuthContext} from '../../common/context/context';
+import {UserContext} from '../../common/context/UserContext';
 import {Users} from '../../common/database/model/users';
 
 import {Styles} from '../../utils/Styles';
 import {COLORS} from '../../utils/theme';
 
+import {Users as UserDB} from '../../common/database/model/users';
+
 const {width, height} = Dimensions.get('window');
 
 const LoginScreen = ({navigation}) => {
+  const uContext = useContext(UserContext);
   const [data, setData] = useState({
     id: '',
     username: '',
@@ -32,7 +35,7 @@ const LoginScreen = ({navigation}) => {
     confirm_secureTextEntry: true,
   });
 
-  const {signIn} = useContext(AuthContext);
+  // const {signIn} = useContext(AuthContext);
 
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
@@ -55,7 +58,7 @@ const LoginScreen = ({navigation}) => {
   };
 
   const handlePasswordChange = (val) => {
-    if (val.trim().length >= 8) {
+    if (val.trim().length >= 6) {
       setData({
         ...data,
         password: val,
@@ -84,6 +87,39 @@ const LoginScreen = ({navigation}) => {
     }
   };
 
+  const login = () => {
+    console.log('Something login' + data.username + ' ' + data.password);
+
+    if (data.username.length === 0 || data.password.length === 0) {
+      Alert.alert(
+        'Lỗi khi nhập!',
+        'Tài khoản hoặc mật khẩu không được bỏ trống.',
+        [{text: 'Ok'}],
+      );
+      return;
+    }
+
+    let existUserDB = UserDB.findIndex(
+      (item) =>
+        item.username === data.username && item.password === data.password,
+    );
+    if (existUserDB >= 0) {
+      let dataFM = {
+        id: data.id,
+        username: data.username,
+        password: data.password,
+      };
+      uContext.setData(dataFM);
+      navigation.navigate('Home');
+    } else {
+      Alert.alert(
+        'Thông tin sai!',
+        'Tài khoản hoặc mật khẩu không chính xác.',
+        [{text: 'Ok'}],
+      );
+    }
+  };
+
   const loginHandle = (userName, passWord) => {
     const foundUser = Users.filter((item) => {
       return userName === item.username && passWord === item.password;
@@ -104,7 +140,7 @@ const LoginScreen = ({navigation}) => {
       ]);
       return;
     }
-    signIn(foundUser);
+    // signIn(foundUser);
   };
 
   return (
@@ -121,7 +157,7 @@ const LoginScreen = ({navigation}) => {
                 <InputValue
                   title="MSSV"
                   icon="user"
-                  keyboardType="numeric"
+                  // keyboardType="numeric"/
                   onChangeText={(username) => textInputChange(username)}
                   onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                 />
@@ -133,7 +169,7 @@ const LoginScreen = ({navigation}) => {
                 {data.isValidUser ? null : (
                   <Animatable.View animation="fadeInLeft" duration={500}>
                     <Text style={styles.errorMsg}>
-                      Username must be 4 characters long.
+                      Tên người dùng phải dài 4 ký tự.
                     </Text>
                   </Animatable.View>
                 )}
@@ -148,16 +184,12 @@ const LoginScreen = ({navigation}) => {
                 {data.isValidPassword ? null : (
                   <Animatable.View animation="fadeInLeft" duration={500}>
                     <Text style={styles.errorMsg}>
-                      Password must be 8 characters long.
+                      Mật khẩu phải dài hơn 6 kí tự
                     </Text>
                   </Animatable.View>
                 )}
               </View>
-              <TouchableOpacity
-                onPress={() => {
-                  loginHandle(data.username, data.password);
-                }}
-                style={styles.btnTouch}>
+              <TouchableOpacity onPress={login} style={styles.btnTouch}>
                 <LinearGradient
                   start={{x: 0, y: 0}}
                   end={{x: 1, y: 0}}
@@ -171,7 +203,7 @@ const LoginScreen = ({navigation}) => {
             <TouchableOpacity
               onPress={() => navigation.navigate('SignUp')}
               style={styles.txtBtn}>
-              <Text style={styles.txtBtn}>Register</Text>
+              <Text style={styles.txtBtn}>Đăng kí</Text>
             </TouchableOpacity>
           </View>
         </Animatable.View>
@@ -232,5 +264,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#FFF',
     textAlign: 'center',
+  },
+  errorMsg: {
+    color: 'red',
   },
 });
